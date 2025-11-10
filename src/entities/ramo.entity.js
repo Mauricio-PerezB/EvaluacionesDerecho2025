@@ -30,4 +30,4 @@ export const RamoSchema = new EntitySchema({
         },
     },
 });
-//modificacion
+//modificacion adoajdajdjap
