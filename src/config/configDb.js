@@ -2,6 +2,11 @@
 import { DataSource } from "typeorm";
 import { DATABASE, DB_USERNAME, HOST, PASSWORD, DB_PORT } from "./configEnv.js";
 
+import { UsuarioSchema } from "../entities/usuario.entity.js";
+import { RamoSchema } from "../entities/ramo.entity.js";
+import { EvaluacionSchema } from "../entities/evaluacion.entity.js";
+import { InteraccionCalificacionSchema } from "../entities/InteraccionCalificacion.entity.js";
+
 export const AppDataSource = new DataSource({
   type: "postgres",
   host: `${HOST}`,
@@ -9,8 +14,15 @@ export const AppDataSource = new DataSource({
   username: `${DB_USERNAME}`,
   password: `${PASSWORD}`,
   database: `${DATABASE}`,
-  entities: ["src/entities/**/*.js"],
-  synchronize: true, 
+  
+  entities: [
+    UsuarioSchema,
+    RamoSchema,
+    EvaluacionSchema,
+    InteraccionCalificacionSchema
+  ],
+  
+  synchronize: true,
   logging: false,
 });
 
