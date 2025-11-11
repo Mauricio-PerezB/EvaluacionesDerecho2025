@@ -6,6 +6,13 @@ import { UsuarioSchema } from "../entities/usuario.entity.js";
 import { RamoSchema } from "../entities/ramo.entity.js";
 import { EvaluacionSchema } from "../entities/evaluacion.entity.js";
 import { InteraccionCalificacionSchema } from "../entities/InteraccionCalificacion.entity.js";
+import { CalificacionSchema } from "../entities/calificacion.entity.js";
+import { AdjuntoSchema } from "../entities/adjunto.entity.js";
+import { CriterioSchema } from "../entities/criterio.entity.js";
+import { EntregaSchema } from "../entities/entrega.entity.js";
+import { PreguntaSchema } from "../entities/preguntas.entity.js";
+import { ResultadoSchema } from "../entities/resultado.entity.js";
+import { UnidadSchema } from "../entities/unidad.entity.js";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -19,7 +26,14 @@ export const AppDataSource = new DataSource({
     UsuarioSchema,
     RamoSchema,
     EvaluacionSchema,
-    InteraccionCalificacionSchema
+    InteraccionCalificacionSchema,
+    CalificacionSchema,
+    AdjuntoSchema,
+    CriterioSchema,
+    EntregaSchema,
+    PreguntaSchema,
+    ResultadoSchema,
+    UnidadSchema,
   ],
   
   synchronize: true,

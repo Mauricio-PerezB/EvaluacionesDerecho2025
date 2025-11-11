@@ -29,5 +29,11 @@ export const RamoSchema = new EntitySchema({
             updateDate: true,
         },
     },
+    relations: {
+        evaluaciones: {
+            target: "Evaluacion",
+            type: "one-to-many",
+            inverseSide: "ramo",
+        },
+    },
 });
-//modificacion adoajdajdjap
