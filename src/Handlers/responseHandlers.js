@@ -34,7 +34,6 @@ export const handleErrorServer = (res, statusCode = 500, message, errorDetails =
   }
 };
 
-// Backwards-compatible aliases used across the codebase
-// Backwards-compatible aliases used across the codebase
+
 export const success = handleSuccess;
 export const error = handleErrorClient;

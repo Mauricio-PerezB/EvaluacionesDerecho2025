@@ -1,4 +1,4 @@
-// Ejemplo de archivo de rutas (interacciones.routes.js)
+
 
 import { Router } from 'express';
 import { InteraccionCalificacionController } from '../controllers/interaccionCalificacion.controller.js';

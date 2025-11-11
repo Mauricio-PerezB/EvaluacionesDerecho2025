@@ -1,4 +1,3 @@
-// routes/ramo.routes.js
 
 import { Router } from 'express';
 import { RamoController } from '../controllers/ramo.controller.js'; 

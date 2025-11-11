@@ -3,7 +3,7 @@ import { verifyProfessor, verifyStudent } from "../middleware/auth.middleware.js
 import { createHorario, findAllHorarios, asignarHorario, cancelarHorario } from "../services/horario.service.js";
 import { success, error } from "../Handlers/responseHandlers.js";
 
-// Handlers inline (evita depender del controller si hay problemas de export)
+
 const create = (req, res) => {
 	try {
 		const nuevo = createHorario(req.body);
@@ -49,12 +49,10 @@ const cancelar = (req, res) => {
 
 const router = Router();
 
-// Rutas de Profesor (Creación, Asignación Directa, Cancelación)
 router.post("/", verifyProfessor, create);
 router.put("/:horarioId/asignar", verifyProfessor, asignarDirecta);
 router.delete("/:horarioId/cancelar", verifyProfessor, cancelar);
 
-// Rutas Comunes / Estudiante (Visualización y Selección)
 router.get("/", findAll);
 router.post("/:horarioId/seleccionar", verifyStudent, seleccionar);
 

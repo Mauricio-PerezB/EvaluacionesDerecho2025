@@ -1,4 +1,4 @@
-// Ejemplo de archivo de rutas (calificaciones.routes.js)
+
 
 import { Router } from 'express';
 import { CalificacionController } from '../controllers/calificacion.controller.js';
