@@ -42,13 +42,14 @@ export const InteraccionCalificacionSchema = new EntitySchema({
         },
     },
     relations: {
-        calificacion: {
-            target: "Calificacion",
-            type: "many-to-one",
-            joinColumn: { name: "calificacion_id" },
-            inverseSide: "interacciones",
-            nullable: false,
-        },
+        // TODO: Crear archivo de entidad para relación
+        // calificacion: {
+        //     target: "Calificacion",
+        //     type: "many-to-one",
+        //     joinColumn: { name: "calificacion_id" },
+        //     inverseSide: "interacciones",
+        //     nullable: false,
+        // },
         autor: {
             target: "Usuario",
             type: "many-to-one",
