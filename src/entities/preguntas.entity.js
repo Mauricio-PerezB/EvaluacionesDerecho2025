@@ -15,15 +15,15 @@ export const PreguntaSchema = new EntitySchema({
         },
         respuesta: {
             type: "text",
-            nullable: true, // puede ser null si la respuesta aún no está definida
+            nullable: false,
         },
-        fechaCreacion: {
-            name: "fecha_creacion",
+        createdAt: {
+            name: "created_at",
             type: "timestamp",
             createDate: true,
         },
-        fechaActualizacion: {
-            name: "fecha_actualizacion",
+        updatedAt: {
+            name: "updated_at",
             type: "timestamp",
             updateDate: true,
         },
@@ -33,7 +33,7 @@ export const PreguntaSchema = new EntitySchema({
             target: "Unidad",
             type: "many-to-one",
             joinColumn: { name: "unidad_id" },
-            nullable: false,
+            nullable: true
         },
     },
 });

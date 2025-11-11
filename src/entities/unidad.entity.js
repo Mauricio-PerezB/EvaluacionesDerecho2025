@@ -18,13 +18,13 @@ export const UnidadSchema = new EntitySchema({
             type: "text",
             nullable: true,
         },
-        fechaCreacion: {
-            name: "fecha_creacion",
+        createdAt: {
+            name: "created_at",
             type: "timestamp",
             createDate: true,
         },
-        fechaActualizacion: {
-            name: "fecha_actualizacion",
+        updatedAt: {
+            name: "updated_at",
             type: "timestamp",
             updateDate: true,
         },
