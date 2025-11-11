@@ -53,8 +53,8 @@ export const UsuarioSchema = new EntitySchema({
         },
     },
     relations: {
-        calificaciones_obtenidas: {
-            target: "Calificacion",
+        entregas: {
+            target: "Entrega",
             type: "one-to-many",
             inverseSide: "alumno",
         },
