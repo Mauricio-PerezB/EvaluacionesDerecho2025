@@ -8,6 +8,11 @@ import { EvaluacionSchema } from "../entities/evaluacion.entity.js";
 import { InteraccionCalificacionSchema } from "../entities/InteraccionCalificacion.entity.js";
 import { UnidadSchema } from "../entities/unidad.entity.js";
 import { PreguntaSchema } from "../entities/preguntas.entity.js";
+import { CalificacionSchema } from "../entities/calificacion.entity.js";
+import { AdjuntoSchema } from "../entities/adjunto.entity.js";
+import { CriterioSchema } from "../entities/criterio.entity.js";
+import { EntregaSchema } from "../entities/entrega.entity.js";
+import { ResultadoSchema } from "../entities/resultado.entity.js";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -22,7 +27,12 @@ export const AppDataSource = new DataSource({
     EvaluacionSchema,
     InteraccionCalificacionSchema,
     UnidadSchema,
-    PreguntaSchema
+    PreguntaSchema,
+    CalificacionSchema,
+    AdjuntoSchema,
+    CriterioSchema,
+    EntregaSchema,
+    ResultadoSchema,
   ],
   synchronize: true,
   logging: false,

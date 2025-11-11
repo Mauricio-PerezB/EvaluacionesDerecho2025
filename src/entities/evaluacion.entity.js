@@ -49,13 +49,16 @@ export const EvaluacionSchema = new EntitySchema({
             type: "one-to-many",
             inverseSide: "evaluacion",
         },
-        
+        calificaciones: {
+            target: "Calificacion",
+            type: "one-to-many",
+            inverseSide: "evaluacion",
+        },
         adjuntos: {
             target: "Adjunto",
             type: "one-to-many",
             inverseSide: "evaluacion",
         },
-        
         entregas: {
             target: "Entrega",
             type: "one-to-many",
