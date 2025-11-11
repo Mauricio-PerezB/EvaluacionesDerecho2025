@@ -52,4 +52,16 @@ export const UsuarioSchema = new EntitySchema({
             updateDate: true,
         },
     },
+    relations: {
+        calificaciones_obtenidas: {
+            target: "Calificacion",
+            type: "one-to-many",
+            inverseSide: "alumno",
+        },
+        interacciones_enviadas: {
+            target: "InteraccionCalificacion",
+            type: "one-to-many",
+            inverseSide: "autor",
+        }
+    }
 });
