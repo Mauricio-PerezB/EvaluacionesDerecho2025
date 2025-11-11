@@ -18,12 +18,12 @@ export const CalificacionSchema = new EntitySchema({
         retroalimentacionDocente: {
             name: "retroalimentacion_docente",
             type: "text",
-            nullable: true, // Opcional, ya que puede ser que no siempre haya retroalimentación
+            nullable: true,
         },
         fechaSubida: {
             name: "fecha_subida",
             type: "timestamp",
-            createDate: true, // Esta será la fecha que activa el plazo de 24h
+            createDate: true,
         },
         createdAt: {
             name: "created_at",
@@ -37,19 +37,11 @@ export const CalificacionSchema = new EntitySchema({
         },
     },
     relations: {
-        alumno: {
-            target: "Usuario",
-            type: "many-to-one",
-            joinColumn: { name: "alumno_id" },
-            inverseSide: "calificaciones_obtenidas",
-            nullable: false,
-        },
-        evaluacion: {
-            target: "Evaluacion",
-            type: "many-to-one",
-            joinColumn: { name: "evaluacion_id" },
-            inverseSide: "calificaciones",
-            nullable: false,
+        entrega: {
+            target: "Entrega",
+            type: "one-to-one",
+            joinColumn: { name: "entrega_id" },
+            inverseSide: "calificacion",
         },
         interacciones: {
             target: "InteraccionCalificacion",
