@@ -6,6 +6,8 @@ import { UsuarioSchema } from "../entities/usuario.entity.js";
 import { RamoSchema } from "../entities/ramo.entity.js";
 import { EvaluacionSchema } from "../entities/evaluacion.entity.js";
 import { InteraccionCalificacionSchema } from "../entities/InteraccionCalificacion.entity.js";
+import { UnidadSchema } from "../entities/unidad.entity.js";
+import { PreguntaSchema } from "../entities/preguntas.entity.js";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -14,14 +16,14 @@ export const AppDataSource = new DataSource({
   username: `${DB_USERNAME}`,
   password: `${PASSWORD}`,
   database: `${DATABASE}`,
-  
   entities: [
     UsuarioSchema,
     RamoSchema,
     EvaluacionSchema,
-    InteraccionCalificacionSchema
+    InteraccionCalificacionSchema,
+    UnidadSchema,
+    PreguntaSchema
   ],
-  
   synchronize: true,
   logging: false,
 });
