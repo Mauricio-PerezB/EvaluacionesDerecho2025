@@ -4,9 +4,23 @@ export const EntregaSchema = new EntitySchema({
     name: "Entrega",
     tableName: "entregas",
     columns: {
-        id: { type: "int", primary: true, generated: "increment" },
-        puntajeTotal: { name: "puntaje_total", type: "decimal", precision: 5, scale: 2, nullable: true },
-        comentarioGeneral: { name: "comentario_general", type: "text", nullable: true },
+        id: { 
+            type: "int", 
+            primary: true, 
+            generated: "increment" 
+        },
+        puntajeTotal: { 
+            name: "puntaje_total", 
+            type: "decimal", 
+            precision: 5, 
+            scale: 2, 
+            nullable: true 
+        },
+        comentarioGeneral: { 
+            name: "comentario_general", 
+            type: "text", 
+            nullable: true 
+        },
     },
     relations: {
         evaluacion: {
@@ -23,6 +37,11 @@ export const EntregaSchema = new EntitySchema({
         resultados: {
             target: "Resultado",
             type: "one-to-many",
+            inverseSide: "entrega",
+        },
+        calificacion: {
+            target: "Calificacion",
+            type: "one-to-one",
             inverseSide: "entrega",
         },
     },
