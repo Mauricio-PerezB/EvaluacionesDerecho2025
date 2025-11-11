@@ -45,4 +45,9 @@ export const EvaluacionSchema = new EntitySchema({
             nullable: false,
         },
     },
+    calificaciones: {
+            target: "Calificacion",
+            type: "one-to-many",
+            inverseSide: "evaluacion",
+        },
 });
