@@ -1,4 +1,4 @@
-const { HorariosDB, HorarioEntity } = require('../entities/horario.entity');
+import { HorariosDB, HorarioEntity } from '../entities/horario.entity.js';
 
 // El servicio maneja la interacción con la "DB" y las reglas de negocio.
 class HorarioService {
@@ -66,4 +66,10 @@ class HorarioService {
     }
 }
 
-module.exports = HorarioService;
+export default HorarioService;
+
+// Named exports for direct usage in routes (compatibility)
+export const createHorario = HorarioService.create;
+export const findAllHorarios = HorarioService.findAll;
+export const asignarHorario = HorarioService.asignar;
+export const cancelarHorario = HorarioService.cancelar;

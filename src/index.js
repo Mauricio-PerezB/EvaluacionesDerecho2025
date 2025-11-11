@@ -2,7 +2,9 @@ import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
 import { connectDB } from "./config/configDb.js";
-import { routerApi } from "./routes/index.routes.js";
+// Note: routerApi is imported dynamically after DB connection to avoid import-time
+// module resolution errors while migrating modules to ESM. If dynamic import fails
+// we still start a minimal server so you can iterate on fixes.
 
 const app = express();
 app.use(express.json());
@@ -15,8 +17,17 @@ app.get("/", (req, res) => {
 // Inicializa la conexión a la base de datos
 connectDB()
   .then(() => {
-    // Carga todas las rutas de la aplicación
-    routerApi(app);
+    // Intentamos cargar las rutas dinámicamente. Si fallan por errores de módulos
+    // no bloqueamos el arranque: iniciamos un servidor mínimo y reportamos el
+    // problema para que puedas corregir los módulos.
+    import("./routes/index.routes.js")
+      .then((mod) => {
+        if (mod && typeof mod.routerApi === "function") mod.routerApi(app);
+      })
+      .catch((err) => {
+        console.warn("No se pudo cargar rutas dinámicamente:", err.message || err);
+        console.warn("El servidor continuará en modo limitado. Revisa las rutas/exportaciones.");
+      });
 
     // Levanta el servidor Express
     const PORT = process.env.PORT || 3000;
