@@ -7,7 +7,7 @@ export const PreguntaSchema = new EntitySchema({
         id: {
             type: "int",
             primary: true,
-            generated: "increment",
+            generated: "increment"
         },
         pregunta: {
             type: "text",
@@ -15,25 +15,40 @@ export const PreguntaSchema = new EntitySchema({
         },
         respuesta: {
             type: "text",
-            nullable: false,
+            nullable: true, 
         },
-        createdAt: {
-            name: "created_at",
+        fechaCreacion: {
+            name: "fecha_creacion",
             type: "timestamp",
             createDate: true,
         },
-        updatedAt: {
-            name: "updated_at",
+        fechaActualizacion: {
+            name: "fecha_actualizacion",
             type: "timestamp",
             updateDate: true,
         },
     },
     relations: {
+        profesor: {
+            target: "Usuario",
+            type: "many-to-one",
+            joinColumn: { name: "profesor_id" },
+            nullable: true, 
+            onDelete: "SET NULL",
+        },
+        alumno : {
+            target: "Usuario",
+            type: "many-to-one",
+            joinColumn: { name: "alumno_id" },
+            nullable: true, 
+            onDelete: "SET NULL",
+        },
         unidad: {
             target: "Unidad",
             type: "many-to-one",
             joinColumn: { name: "unidad_id" },
-            nullable: true
+            nullable: false,
         },
     },
-});
+});          generated: "increment"
+  
