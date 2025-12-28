@@ -1,4 +1,5 @@
-import { HorariosDB, HorarioEntity } from '../entities/horario.entity.js';
+import fs from 'fs';
+const content = `import { HorariosDB, HorarioEntity } from '../entities/horario.entity.js';
 import { SEMESTER_START, SEMESTER_END } from '../config/configEnv.js';
 
 class HorarioService {
@@ -126,3 +127,7 @@ export function publicarHorario(horarioId) {
 export function despublicarHorario(horarioId) {
   return HorarioService.despublicar(horarioId);
 }
+`;
+
+fs.writeFileSync('src/services/horario.service.js', content, 'utf8');
+console.log('Wrote horario.service.js');

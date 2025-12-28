@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 // Entidad en memoria para franjas horarias (mock DB)
->>>>>>> main
 let horariosDB = [];
 
 const generarId = () => 't-' + Math.random().toString(36).substring(2, 6);

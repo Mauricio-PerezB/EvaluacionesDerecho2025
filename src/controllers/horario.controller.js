@@ -49,7 +49,6 @@ class HorarioController {
     }
 }
 
-// Exportar como funciones nombradas para que las rutas puedan importarlas con destructuring
 export const create = HorarioController.create;
 export const findAll = HorarioController.findAll;
 export const seleccionar = HorarioController.seleccionar;
