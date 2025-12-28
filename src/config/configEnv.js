@@ -11,3 +11,6 @@ export const PASSWORD = process.env.DB_PASSWORD;
 export const DATABASE = process.env.DATABASE;
 export const JWT_SECRET = process.env.JWT_SECRET;
 export const cookieKey = process.env.COOKIE_KEY;
+// Rango semestral (ISO date strings, por ejemplo: 2025-02-01)
+export const SEMESTER_START = process.env.SEMESTER_START || null;
+export const SEMESTER_END = process.env.SEMESTER_END || null;

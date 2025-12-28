@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { verifyProfessor, verifyStudent } from "../middleware/auth.middleware.js";
-import {
+import HorarioController, {
   create,
   asignarDirecta,
   cancelar,
@@ -14,6 +14,9 @@ const router = Router();
 router.post("/", verifyProfessor, create);
 router.put("/:horarioId/asignar", verifyProfessor, asignarDirecta);
 router.delete("/:horarioId/cancelar", verifyProfessor, cancelar);
+// Publicar / Despublicar (Profesor)
+router.put('/:horarioId/publicar', verifyProfessor, (req, res) => HorarioController.publicar(req, res));
+router.put('/:horarioId/despublicar', verifyProfessor, (req, res) => HorarioController.despublicar(req, res));
 
 // Rutas Comunes / Estudiante (Visualización y Selección)
 router.get("/", findAll);

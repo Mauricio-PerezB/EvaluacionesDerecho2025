@@ -2,41 +2,27 @@ import jwt from "jsonwebtoken";
 import { handleErrorClient } from "../Handlers/responseHandlers.js";
 
 function getToken(req) {
-  const authHeader = req.headers["authorization"];
-  if (!authHeader || !authHeader.startsWith("Bearer ")) return null;
-  return authHeader.split(" ")[1];
+  const authHeader = req.headers["authorization"] || req.headers["Authorization"];
+  if (!authHeader) return null;
+  if (typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
+    return authHeader.split(' ')[1];
+  }
+  return null;
 }
 
-<<<<<<< Updated upstream
-  if (!authHeader) {
-    return handleErrorClient(res, 401, "Acceso denegado. No se proporcionó token.");
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  if (!token) {
-    return handleErrorClient(res, 401, "Acceso denegado. Token malformado.");
-  }
-=======
 export function authMiddleware(req, res, next) {
   const token = getToken(req);
   if (!token) return handleErrorClient(res, 401, "Acceso denegado. Token no proporcionado o malformado.");
->>>>>>> Stashed changes
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     req.user = payload;
-<<<<<<< Updated upstream
     next();
   } catch (error) {
-    return handleErrorClient(res, 401, "Token inválido o expirado.", error.message);
-=======
-    next();
-  } catch (error) {
-    if (error.name === 'TokenExpiredError') {
+    if (error && error.name === 'TokenExpiredError') {
       return handleErrorClient(res, 401, "Token expirado. Por favor, inicie sesión de nuevo.", error.message);
     }
-    return handleErrorClient(res, 401, "Token no es válido.", error.message);
+    return handleErrorClient(res, 401, "Token no es válido.", error?.message || null);
   }
 }
 
@@ -52,10 +38,10 @@ export function verifyProfessor(req, res, next) {
     req.user = payload;
     next();
   } catch (error) {
-    if (error.name === 'TokenExpiredError') {
+    if (error && error.name === 'TokenExpiredError') {
       return handleErrorClient(res, 401, "Token expirado. Por favor, inicie sesión de nuevo.", error.message);
     }
-    return handleErrorClient(res, 401, "Token no es válido.", error.message);
+    return handleErrorClient(res, 401, "Token no es válido.", error?.message || null);
   }
 }
 
@@ -71,10 +57,9 @@ export function verifyStudent(req, res, next) {
     req.user = payload;
     next();
   } catch (error) {
-    if (error.name === 'TokenExpiredError') {
+    if (error && error.name === 'TokenExpiredError') {
       return handleErrorClient(res, 401, "Token expirado. Por favor, inicie sesión de nuevo.", error.message);
     }
-    return handleErrorClient(res, 401, "Token no es válido.", error.message);
->>>>>>> Stashed changes
+    return handleErrorClient(res, 401, "Token no es válido.", error?.message || null);
   }
 }

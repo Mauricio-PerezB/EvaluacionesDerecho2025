@@ -1,0 +1,10 @@
+:root{ --bg:#f6f8fb; --card:#fff; --accent:#005bcc }
+body{font-family:system-ui,Segoe UI,Roboto,Arial;background:var(--bg);margin:0;padding:40px}
+.container{max-width:420px;margin:0 auto;background:var(--card);padding:24px;border-radius:8px;box-shadow:0 6px 18px rgba(20,30,60,.08)}
+h1{margin:0 0 12px;font-size:20px}
+label{display:block;margin-top:12px;font-size:13px}
+input{width:100%;padding:8px;margin-top:6px;border:1px solid #d7dbe3;border-radius:6px}
+button{margin-top:14px;background:var(--accent);color:#fff;padding:10px 12px;border-radius:6px;border:0}
+#msg{margin-top:12px}
+#dashboard{margin-top:18px;padding-top:12px;border-top:1px dashed #eee}
+pre{background:#f3f6ff;padding:8px;border-radius:6px;overflow:auto}
