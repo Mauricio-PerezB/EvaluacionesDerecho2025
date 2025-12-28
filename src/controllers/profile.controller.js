@@ -10,17 +10,16 @@ export function getPublicProfile(req, res) {
 
 export function getPrivateProfile(req, res) {
   const user = req.user;
-
   handleSuccess(res, 200, "Perfil privado obtenido exitosamente", {
-    message: `¡Hola, ${user.email}! Este es tu perfil privado. Solo tú puedes verlo.`,
+    message: `¡Hola, ${user.nombre}! Este es tu perfil privado. Solo tú puedes verlo.`,
     userData: user,
   });
 }
 
 export async function updatePrivateProfile(req, res) {
   try {
-    const userPayload = req.user; // payload tiene sub y email
-    const userId = userPayload.sub;
+    const userPayload = req.user;
+    const userId = userPayload.id;
     const changes = req.body;
 
     if (!changes || Object.keys(changes).length === 0) {
@@ -28,12 +27,10 @@ export async function updatePrivateProfile(req, res) {
     }
 
     const updated = await updateProfile(userId, changes);
-    // No devolver la contraseña
     if (updated.password) delete updated.password;
 
     handleSuccess(res, 200, "Perfil actualizado exitosamente", updated);
   } catch (error) {
-    // si es error de negocio devolver 400, si no 500
     if (error.message === "Usuario no encontrado" || error.message.includes("email")) {
       return handleErrorClient(res, 400, error.message);
     }
@@ -44,7 +41,7 @@ export async function updatePrivateProfile(req, res) {
 export async function deletePrivateProfile(req, res) {
   try {
     const userPayload = req.user;
-    const userId = userPayload.sub;
+    const userId = userPayload.id;
 
     const result = await deleteProfile(userId);
     handleSuccess(res, 200, "Perfil eliminado exitosamente", result);

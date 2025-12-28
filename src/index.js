@@ -1,10 +1,17 @@
 import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
+<<<<<<< HEAD
 import { AppDataSource, connectDB } from "./config/configDb.js";
 import { routerApi } from "./routes/index.routes.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
+=======
+import { connectDB } from "./config/configDb.js";
+// Note: routerApi is imported dynamically after DB connection to avoid import-time
+// module resolution errors while migrating modules to ESM. If dynamic import fails
+// we still start a minimal server so you can iterate on fixes.
+>>>>>>> main
 
 const app = express();
 app.use(express.json());
@@ -19,12 +26,31 @@ app.get("/", (req, res) => {
 });
 
 // Inicializa la conexión a la base de datos
+<<<<<<< HEAD
 async function start() {
   const serverStart = () => {
+=======
+connectDB()
+  .then(() => {
+    // Intentamos cargar las rutas dinámicamente. Si fallan por errores de módulos
+    // no bloqueamos el arranque: iniciamos un servidor mínimo y reportamos el
+    // problema para que puedas corregir los módulos.
+    import("./routes/index.routes.js")
+      .then((mod) => {
+        if (mod && typeof mod.routerApi === "function") mod.routerApi(app);
+      })
+      .catch((err) => {
+        console.warn("No se pudo cargar rutas dinámicamente:", err.message || err);
+        console.warn("El servidor continuará en modo limitado. Revisa las rutas/exportaciones.");
+      });
+
+    // Levanta el servidor Express
+>>>>>>> main
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
       console.log(`Servidor iniciado en http://localhost:${PORT}`);
     });
+<<<<<<< HEAD
   };
 
   try {
@@ -40,3 +66,10 @@ async function start() {
 }
 
 start();
+=======
+  })
+  .catch((error) => {
+    console.log("Error al conectar con la base de datos:", error);
+    process.exit(1);
+  });
+>>>>>>> main

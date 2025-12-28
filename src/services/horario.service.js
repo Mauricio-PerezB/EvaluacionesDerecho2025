@@ -1,10 +1,11 @@
 import { HorariosDB, HorarioEntity } from '../entities/horario.entity.js';
+<<<<<<< HEAD
 import { SEMESTER_START, SEMESTER_END } from '../config/configEnv.js';
+=======
+>>>>>>> main
 
-// El servicio maneja la interacción con la "DB" y las reglas de negocio.
 class HorarioService {
     
-    // 📝 Crea y define una nueva franja horaria.
     static create(data) {
         if (!data.fecha || !data.hora || !data.duracionMinutos) {
             throw new Error("Datos de horario incompletos.");
@@ -44,12 +45,18 @@ class HorarioService {
         return nuevoHorario;
     }
 
+<<<<<<< HEAD
     // 🔎 Obtiene horarios (disponibles o todos).
     static findAll(options = {}) {
         const { disponibles = false, publicados = true } = options;
         let results = HorariosDB.slice();
         if (publicados) {
             results = results.filter(h => h.publicado === true);
+=======
+    static findAll(disponibles = false) {
+        if (disponibles) {
+            return HorariosDB.filter(h => h.disponible);
+>>>>>>> main
         }
         if (disponibles) {
             results = results.filter(h => h.disponible === true);
@@ -57,7 +64,6 @@ class HorarioService {
         return results;
     }
 
-    // 🔒 Asigna un estudiante a un turno, verificando exclusividad y conflictos.
     static asignar(horarioId, estudianteId) {
         if (!estudianteId) {
              throw new Error("Se requiere el ID del estudiante para la asignación.");
@@ -69,12 +75,14 @@ class HorarioService {
             throw new Error("Franja horaria no encontrada.");
         }
 
-        // 1. **Verificar Disponibilidad** (Exclusividad del turno)
         if (!horario.disponible || horario.estudianteId !== null) {
             throw new Error("Franja horaria ya está asignada a otro estudiante.");
         }
 
+<<<<<<< HEAD
         // 2. **Verificar Conflicto** (Asegurar que el estudiante no tiene otro turno asignado)
+=======
+>>>>>>> main
         const conflicto = HorariosDB.some(h => h.estudianteId === estudianteId);
         if (conflicto) {
             throw new Error("El estudiante ya tiene un turno asignado en otro horario.");
@@ -117,4 +125,13 @@ class HorarioService {
     }
 }
 
+<<<<<<< HEAD
 export default HorarioService;
+=======
+export default HorarioService;
+
+export const createHorario = HorarioService.create;
+export const findAllHorarios = HorarioService.findAll;
+export const asignarHorario = HorarioService.asignar;
+export const cancelarHorario = HorarioService.cancelar;
+>>>>>>> main

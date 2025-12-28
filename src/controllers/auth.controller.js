@@ -1,38 +1,44 @@
-import { loginUser } from "../services/auth.service.js";
-import { createUser } from "../services/user.service.js";
+import * as authService from "../services/auth.service.js";
+import * as userService from "../services/user.service.js";
 import { handleSuccess, handleErrorClient, handleErrorServer } from "../Handlers/responseHandlers.js";
 
-export async function login(req, res) {
+export const register = async (req, res) => {
+  try {
+    const { nombre, apellido, rut, email, password } = req.body;
+    
+    if (!nombre || !apellido || !rut || !email || !password) {
+      return handleErrorClient(res, 400, "Faltan campos obligatorios.");
+    }
+
+    const newUser = await userService.createUser(req.body);
+    
+    delete newUser.password;
+
+    return handleSuccess(res, 201, "Usuario registrado exitosamente", newUser);
+
+  } catch (error) {
+    if (error.message.includes("ya está registrado")) {
+      return handleErrorClient(res, 409, error.message);
+    }
+    return handleErrorServer(res, 500, "Error al registrar usuario", error.message);
+  }
+};
+
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    
     if (!email || !password) {
-      return handleErrorClient(res, 400, "Email y contraseña son requeridos");
+      return handleErrorClient(res, 400, "Email y password son requeridos.");
     }
-    
-    const data = await loginUser(email, password);
-    handleSuccess(res, 200, "Login exitoso", data);
-  } catch (error) {
-    handleErrorClient(res, 401, error.message);
-  }
-}
 
-export async function register(req, res) {
-  try {
-    const data = req.body;
-    
-    if (!data.email || !data.password) {
-      return handleErrorClient(res, 400, "Email y contraseña son requeridos");
-    }
-    
-    const newUser = await createUser(data);
-    delete newUser.password; // Nunca devolver la contraseña
-    handleSuccess(res, 201, "Usuario registrado exitosamente", newUser);
+    const { user, token } = await authService.loginUser(email, password);
+
+    return handleSuccess(res, 200, "Login exitoso", { user, token });
+
   } catch (error) {
-    if (error.code === '23505') { // Código de error de PostgreSQL para violación de unique constraint
-      handleErrorClient(res, 409, "El email ya está registrado");
-    } else {
-      handleErrorServer(res, 500, "Error interno del servidor", error.message);
+    if (error.message.includes("Credenciales incorrectas")) {
+      return handleErrorClient(res, 401, "Credenciales incorrectas.");
     }
+    return handleErrorServer(res, 500, "Error al iniciar sesión", error.message);
   }
-}
+};
