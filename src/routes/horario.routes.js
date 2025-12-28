@@ -1,5 +1,14 @@
 import { Router } from "express";
 import { verifyProfessor, verifyStudent } from "../middleware/auth.middleware.js";
+<<<<<<< HEAD
+import HorarioController, {
+  create,
+  asignarDirecta,
+  cancelar,
+  findAll,
+  seleccionar,
+} from "../controllers/horario.controller.js";
+=======
 import { createHorario, findAllHorarios, asignarHorario, cancelarHorario } from "../services/horario.service.js";
 import { success, error } from "../Handlers/responseHandlers.js";
 
@@ -46,12 +55,16 @@ const cancelar = (req, res) => {
 		return error(res, 400, err.message);
 	}
 };
+>>>>>>> main
 
 const router = Router();
 
 router.post("/", verifyProfessor, create);
 router.put("/:horarioId/asignar", verifyProfessor, asignarDirecta);
 router.delete("/:horarioId/cancelar", verifyProfessor, cancelar);
+// Publicar / Despublicar (Profesor)
+router.put('/:horarioId/publicar', verifyProfessor, (req, res) => HorarioController.publicar(req, res));
+router.put('/:horarioId/despublicar', verifyProfessor, (req, res) => HorarioController.despublicar(req, res));
 
 router.get("/", findAll);
 router.post("/:horarioId/seleccionar", verifyStudent, seleccionar);

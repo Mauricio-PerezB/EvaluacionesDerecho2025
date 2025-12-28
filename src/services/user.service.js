@@ -1,9 +1,17 @@
 import { AppDataSource } from "../config/configDb.js";
+<<<<<<< HEAD
+import { User } from "../entities/user.entity.js";
+=======
 import { UsuarioSchema } from "../entities/usuario.entity.js";
+>>>>>>> main
 import bcrypt from "bcrypt";
 
 const userRepository = AppDataSource.getRepository(UsuarioSchema);
 
+<<<<<<< HEAD
+export async function createUser(data) {  
+  const hashedPassword = await bcrypt.hash(data.password, 10);
+=======
 export async function createUser(data) {
   const { nombre, apellido, rut, email, password, rol } = data;
 
@@ -17,6 +25,7 @@ export async function createUser(data) {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
+>>>>>>> main
 
   const newUser = userRepository.create({
     nombre,
@@ -24,7 +33,11 @@ export async function createUser(data) {
     rut,
     email,
     password: hashedPassword,
+<<<<<<< HEAD
+    rol: data.rol || 'ALUMNO'
+=======
     rol: rol || 'ALUMNO'
+>>>>>>> main
   });
 
   return await userRepository.save(newUser);
