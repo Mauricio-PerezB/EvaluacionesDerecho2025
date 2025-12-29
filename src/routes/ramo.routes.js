@@ -37,6 +37,6 @@ router.delete(
   (req, res, next) => ramoController.deleteRamo(req, res, next)
 );
 
-router.post("/", createRamo); // Esto habilita el POST /api/ramos
+router.post("/", createRamo);
 
 export default router;

@@ -6,9 +6,11 @@ import horarioRoutes from "./horario.routes.js";
 import ramoRoutes from "./ramo.routes.js";
 import evaluacionRoutes from "./evaluacion.routes.js";
 import entregaRoutes from "./entrega.routes.js";
+import calificacionRoutes from "./calificacion.routes.js"; 
 
 export function routerApi(app) {
   const router = Router();
+  
   app.use("/api", router);
 
   router.use("/auth", authRoutes);
@@ -18,7 +20,8 @@ export function routerApi(app) {
   router.use("/ramos", ramoRoutes);
   router.use("/evaluaciones", evaluacionRoutes);
   router.use("/entregas", entregaRoutes);
-
+  
+  router.use("/calificaciones", calificacionRoutes);
 
   return router;
 }
