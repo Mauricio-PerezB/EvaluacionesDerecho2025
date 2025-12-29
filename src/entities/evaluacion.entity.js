@@ -37,13 +37,6 @@ export const EvaluacionSchema = new EntitySchema({
         },
     },
     relations: {
-        ramo: {
-            target: "Ramo",
-            type: "many-to-one",
-            joinColumn: { name: "ramo_id" },
-            inverseSide: "evaluaciones",
-            nullable: false,
-        },
         criterios: {
             target: "Criterio",
             type: "one-to-many",
