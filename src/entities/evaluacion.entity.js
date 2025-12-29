@@ -1,8 +1,8 @@
 import { EntitySchema } from "typeorm";
 
 export const EvaluacionSchema = new EntitySchema({
-    name: "Evaluacion", 
-    tableName: "evaluaciones", 
+    name: "Evaluacion",
+    tableName: "evaluaciones",
     columns: {
         id: {
             type: "int",
@@ -24,38 +24,15 @@ export const EvaluacionSchema = new EntitySchema({
             precision: 5,
             scale: 2,
             nullable: false,
-        },
-        createdAt: {
-            name: "created_at",
-            type: "timestamp",
-            createDate: true,
-        },
-        updatedAt: {
-            name: "updated_at",
-            type: "timestamp",
-            updateDate: true,
-        },
+        }
     },
     relations: {
-        criterios: {
-            target: "Criterio",
-            type: "one-to-many",
-            inverseSide: "evaluacion",
-        },
-        calificaciones: {
-            target: "Calificacion",
-            type: "one-to-many",
-            inverseSide: "evaluacion",
-        },
-        adjuntos: {
-            target: "Adjunto",
-            type: "one-to-many",
-            inverseSide: "evaluacion",
-        },
-        entregas: {
-            target: "Entrega",
-            type: "one-to-many",
-            inverseSide: "evaluacion",
-        },
-    },
+        ramo: {
+            target: "Ramo",
+            type: "many-to-one",
+            joinColumn: { name: "ramo_id" },
+            inverseSide: "evaluaciones",
+        }
+        // ... otras relaciones como criterios
+    }
 });

@@ -1,4 +1,3 @@
-
 import { Router } from 'express';
 import { EvaluacionController } from '../controllers/evaluacion.controller.js';
 import { authMiddleware } from '../middleware/auth.middleware.js';
@@ -10,32 +9,18 @@ const controller = new EvaluacionController();
 const PROFESOR = ['PROFESOR'];
 const TODOS = ['PROFESOR', 'ALUMNO'];
 
-router.post(
-    '/',
-    authMiddleware,
-    checkRole(PROFESOR),
-    controller.createEvaluacion.bind(controller)
-);
-
-router.get(
-    '/',
-    authMiddleware,
-    checkRole(TODOS),
-    controller.getAllEvaluaciones.bind(controller)
-);
-
 router.get(
     '/:id', 
     authMiddleware, 
     checkRole(TODOS), 
-    controller.getEvaluacionDetalle.bind(controller)
+    controller.getEvaluacionDetalle
 );
 
 router.post(
     '/:evalId/criterios',
     authMiddleware,
     checkRole(PROFESOR),
-    controller.addCriterio.bind(controller)
+    controller.addCriterio
 );
 
 export default router;
