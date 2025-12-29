@@ -37,4 +37,11 @@ router.post(
     controller.addCriterio.bind(controller)
 );
 
+router.delete(
+    '/:id',
+    authMiddleware,
+    checkRole(PROFESOR),
+    controller.deleteEvaluacion.bind(controller)
+);
+
 export default router;

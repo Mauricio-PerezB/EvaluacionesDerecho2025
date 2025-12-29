@@ -1,6 +1,7 @@
 import { AppDataSource } from "../config/configDb.js";
 import { EvaluacionSchema } from "../entities/evaluacion.entity.js";
 import { CriterioSchema } from "../entities/criterio.entity.js";
+import { EntregaSchema } from "../entities/entrega.entity.js";
 import { handleErrorClient, handleErrorServer, handleSuccess } from "../Handlers/responseHandlers.js";
 
 const evaluacionRepo = AppDataSource.getRepository(EvaluacionSchema);
@@ -123,6 +124,54 @@ export class EvaluacionController {
         } catch (error) {
             console.error("Error en getAllEvaluaciones:", error);
             handleErrorServer(res, 500, "Error al obtener evaluaciones", error.message);
+        }
+    }
+
+    async deleteEvaluacion(req, res) {
+        try {
+            const { id } = req.params;
+
+            if (!id) {
+                return handleErrorClient(res, 400, "El parámetro id es requerido.");
+            }
+
+            const evaluacionId = parseInt(id);
+            if (isNaN(evaluacionId)) {
+                return handleErrorClient(res, 400, "El id debe ser un número válido.");
+            }
+
+            const evaluacion = await evaluacionRepo.findOne({
+                where: { id: evaluacionId }
+            });
+
+            if (!evaluacion) {
+                return handleErrorClient(res, 404, "Evaluación no encontrada.");
+            }
+
+            const entregasCount = await AppDataSource
+                .getRepository(EntregaSchema)
+                .count({ where: { evaluacion: { id: evaluacionId } } });
+
+            if (entregasCount > 0) {
+                return handleErrorClient(
+                    res, 
+                    400, 
+                    `No se puede eliminar la evaluación porque tiene ${entregasCount} entrega(s) asociada(s). Elimina primero las entregas.`
+                );
+            }
+
+            const nombreEvaluacion = evaluacion.nombre;
+
+            await evaluacionRepo.delete(evaluacionId);
+
+            handleSuccess(res, 200, "Evaluación eliminada exitosamente", {
+                id: evaluacionId,
+                nombre: nombreEvaluacion
+            });
+
+        } catch (error) {
+            console.error("Error en deleteEvaluacion:", error);
+            handleErrorServer(res, 500, "Error al eliminar la evaluación", error.message);
         }
     }
 }

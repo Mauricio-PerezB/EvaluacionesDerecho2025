@@ -30,4 +30,10 @@ router.get(
     controller.getEntregasByEvaluacion.bind(controller)
 );
 
+router.delete(
+    '/:id',
+    authMiddleware,
+    checkRole(PROFESOR),
+    controller.deleteEntrega.bind(controller)
+);
 export default router;
