@@ -1,18 +1,16 @@
+import { Router } from "express";
+import { CalificacionController } from "../controllers/calificacion.controller.js";
+import { createCalificacionManual } from "../controllers/admin.controller.js";
 
-
-import { Router } from 'express';
-import { CalificacionController } from '../controllers/calificacion.controller.js';
-import { authMiddleware } from '../middlewares/auth.middleware.js';
-import { checkRole } from '../middlewares/role.middleware.js';
+import { authMiddleware } from "../middleware/auth.middleware.js"; 
 
 const router = Router();
-const calificacionController = new CalificacionController();
+const controller = new CalificacionController();
 
-router.put(
-    '/:id', 
-    authMiddleware, 
-    checkRole(['PROFESOR']), 
-    calificacionController.updateCalificacion
-);
+router.post("/", authMiddleware, createCalificacionManual); 
+router.get("/:id/detalle", authMiddleware, controller.getDetalleParaAlumno);
+router.post("/:id/apelar", authMiddleware, controller.apelarCalificacion);
+router.get("/docente/bandeja", authMiddleware, controller.getBandejaProfesor);
+router.put("/docente/responder/:interaccionId", authMiddleware, controller.responderApelacion);
 
 export default router;

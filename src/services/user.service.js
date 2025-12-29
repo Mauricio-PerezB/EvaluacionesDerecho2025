@@ -2,10 +2,17 @@ import { AppDataSource } from "../config/configDb.js";
 import { UsuarioSchema } from "../entities/usuario.entity.js";
 import bcrypt from "bcrypt";
 
-const userRepository = AppDataSource.getRepository(UsuarioSchema);
+function getUserRepository() {
+  if (!AppDataSource || !AppDataSource.isInitialized) {
+    throw new Error("Base de datos no inicializada");
+  }
+  return AppDataSource.getRepository(UsuarioSchema);
+}
 
 export async function createUser(data) {
   const { nombre, apellido, rut, email, password, rol } = data;
+
+  const userRepository = getUserRepository();
 
   const emailExists = await userRepository.findOneBy({ email });
   if (emailExists) {
@@ -24,13 +31,14 @@ export async function createUser(data) {
     rut,
     email,
     password: hashedPassword,
-    rol: rol || 'ALUMNO'
+    rol: rol || "ALUMNO",
   });
 
   return await userRepository.save(newUser);
 }
 
 export async function findUserByEmail(email) {
+  const userRepository = getUserRepository();
   return await userRepository
     .createQueryBuilder("usuario")
     .where("usuario.email = :email", { email: email })
@@ -39,6 +47,7 @@ export async function findUserByEmail(email) {
 }
 
 export async function findUserById(id) {
+  const userRepository = getUserRepository();
   return await userRepository.findOneBy({ id });
 }
 
@@ -54,7 +63,7 @@ export async function updateProfile(userId, changes) {
     const hashed = await bcrypt.hash(changes.password, 10);
     changes.password = hashed;
   }
-
+  const userRepository = getUserRepository();
   userRepository.merge(user, changes);
   return await userRepository.save(user);
 }
@@ -62,7 +71,7 @@ export async function updateProfile(userId, changes) {
 export async function deleteProfile(userId) {
   const user = await findUserById(userId);
   if (!user) throw new Error("Usuario no encontrado");
-
+  const userRepository = getUserRepository();
   await userRepository.delete({ id: userId });
   return { id: userId };
 }

@@ -15,8 +15,13 @@ export function authMiddleware(req, res, next) {
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = payload;
+    const payload = jwt.verify(token, process.env.JWT_SECRET || "secreto");
+    
+    req.user = {
+        ...payload,
+        id: payload.id || payload.idUsuario || payload.sub 
+    };
+
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {
@@ -26,9 +31,7 @@ export function authMiddleware(req, res, next) {
   }
 }
 
-// Middlewares específicos de rol
 export function verifyProfessor(req, res, next) {
-  // Primero validar token
   authMiddleware(req, res, () => {
     const role = req.user && req.user.rol;
     if (!role || (role !== "PROFESOR" && role !== "PROF")) {
@@ -42,7 +45,7 @@ export function verifyStudent(req, res, next) {
   authMiddleware(req, res, () => {
     const role = req.user && req.user.rol;
     if (!role || (role !== "ALUMNO" && role !== "ESTUDIANTE")) {
-      return handleErrorClient(res, 403, "Acceso denegado. Requiere rol de estudiante.");
+      return handleErrorClient(res, 403, "Acceso denegado. Requiere rol de alumno/estudiante.");
     }
     next();
   });

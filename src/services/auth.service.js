@@ -5,26 +5,19 @@ import { JWT_SECRET } from "../config/configEnv.js";
 
 export async function loginUser(email, password) {
   const user = await findUserByEmail(email);
-  if (!user) {
-    throw new Error("Credenciales incorrectas");
-  }
+  if (!user) throw new Error("Credenciales incorrectas");
 
   const isMatch = await bcrypt.compare(password, user.password);
-  
-  if (!isMatch) {
-    throw new Error("Credenciales incorrectas");
-  }
+  if (!isMatch) throw new Error("Credenciales incorrectas");
 
-  const payload = { 
+  const payload = {
     id: user.id,
     nombre: user.nombre,
     email: user.email,
-    rol: user.rol
+    rol: user.rol,
   };
 
-  const token = jwt.sign(payload, JWT_SECRET, { 
-    expiresIn: "8h"
-  });
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "8h" });
 
   delete user.password;
   return { user, token };

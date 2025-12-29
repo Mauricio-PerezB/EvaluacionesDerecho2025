@@ -1,8 +1,11 @@
 
 import { Router } from 'express';
 import { RamoController } from '../controllers/ramo.controller.js'; 
-import { authMiddleware } from '../middlewares/auth.middleware.js';
-import { checkRole } from '../middlewares/role.middleware.js'; 
+import { authMiddleware } from '../middleware/auth.middleware.js';
+import { checkRole } from '../middleware/role.middleware.js'; 
+import { createRamo } from "../controllers/admin.controller.js";
+
+
 
 const router = Router();
 const ramoController = new RamoController();
@@ -10,28 +13,30 @@ const ramoController = new RamoController();
 const rolesPermitidosGestion = ['PROFESOR']; 
 
 
-router.get('/', authMiddleware, ramoController.getAllRamos);
-router.get('/:id', authMiddleware, ramoController.getRamoById);
+router.get('/', authMiddleware, (req, res, next) => ramoController.getAllRamos(req, res, next));
+router.get('/:id', authMiddleware, (req, res, next) => ramoController.getRamoById(req, res, next));
 
 router.post(
-    '/', 
-    authMiddleware, 
-    checkRole(rolesPermitidosGestion), 
-    ramoController.createRamo
+  '/',
+  authMiddleware,
+  checkRole(rolesPermitidosGestion),
+  (req, res, next) => ramoController.createRamo(req, res, next)
 );
 
 router.put(
-    '/:id', 
-    authMiddleware, 
-    checkRole(rolesPermitidosGestion), 
-    ramoController.updateRamo
+  '/:id',
+  authMiddleware,
+  checkRole(rolesPermitidosGestion),
+  (req, res, next) => ramoController.updateRamo(req, res, next)
 );
 
 router.delete(
-    '/:id', 
-    authMiddleware, 
-    checkRole(rolesPermitidosGestion), 
-    ramoController.deleteRamo
+  '/:id',
+  authMiddleware,
+  checkRole(rolesPermitidosGestion),
+  (req, res, next) => ramoController.deleteRamo(req, res, next)
 );
+
+router.post("/", createRamo);
 
 export default router;

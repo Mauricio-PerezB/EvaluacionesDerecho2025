@@ -4,7 +4,7 @@ import { createHorario, findAllHorarios, asignarHorario, cancelarHorario } from 
 import { success, error } from "../Handlers/responseHandlers.js";
 
 
-const create = (req, res) => {
+const createHorarioHandler = (req, res) => {
 	try {
 		const nuevo = createHorario(req.body);
 		return success(res, 201, 'Franja horaria creada.', nuevo);
@@ -13,7 +13,7 @@ const create = (req, res) => {
 	}
 };
 
-const findAll = (req, res) => {
+const findAllHandler = (req, res) => {
 	try {
 		const soloDisponibles = req.query.disponibles === 'true';
 		const list = findAllHorarios(soloDisponibles);
@@ -23,7 +23,7 @@ const findAll = (req, res) => {
 	}
 };
 
-const seleccionar = (req, res) => {
+const seleccionarHandler = (req, res) => {
 	try {
 		const { horarioId } = req.params;
 		const { estudianteId } = req.body;
@@ -35,9 +35,9 @@ const seleccionar = (req, res) => {
 	}
 };
 
-const asignarDirecta = (req, res) => seleccionar(req, res);
+const asignarDirecta = (req, res) => seleccionarHandler(req, res);
 
-const cancelar = (req, res) => {
+const cancelarHandler = (req, res) => {
 	try {
 		const { horarioId } = req.params;
 		const h = cancelarHorario(horarioId);
@@ -49,11 +49,11 @@ const cancelar = (req, res) => {
 
 const router = Router();
 
-router.post("/", verifyProfessor, create);
+router.post("/", verifyProfessor, createHorarioHandler);
 router.put("/:horarioId/asignar", verifyProfessor, asignarDirecta);
-router.delete("/:horarioId/cancelar", verifyProfessor, cancelar);
+router.delete("/:horarioId/cancelar", verifyProfessor, cancelarHandler);
 
-router.get("/", findAll);
-router.post("/:horarioId/seleccionar", verifyStudent, seleccionar);
+router.get("/", findAllHandler);
+router.post("/:horarioId/seleccionar", verifyStudent, seleccionarHandler);
 
 export default router;

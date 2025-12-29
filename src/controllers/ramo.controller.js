@@ -1,7 +1,7 @@
 // controllers/ramo.controller.js
 
-import { AppDataSource } from "../data-source";
-import { RamoSchema } from "../entities/ramo.entity";
+import { AppDataSource } from "../config/configDb.js";
+import { RamoSchema } from "../entities/ramo.entity.js";
 import { handleSuccess, handleErrorClient, handleErrorServer } from "../Handlers/responseHandlers.js";
 
 const RamoRepository = AppDataSource.getRepository(RamoSchema);
