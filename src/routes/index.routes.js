@@ -1,24 +1,24 @@
 import { Router } from "express";
+import authRoutes from "./auth.routes.js";
+import profileRoutes from "./profile.routes.js";
+import preguntaRoutes from "./pregunta.routes.js";
+import horarioRoutes from "./horario.routes.js";
+import ramoRoutes from "./ramo.routes.js";
+import evaluacionRoutes from "./evaluacion.routes.js";
+import entregaRoutes from "./entrega.routes.js";
 
-export async function routerApi(app) {
+export function routerApi(app) {
   const router = Router();
   app.use("/api", router);
 
-  // Load auth and horarios routes (horarios requires Profesor role to create)
-  const routeDefs = [
-    { path: "/auth", file: "./auth.routes.js" },
-    { path: "/horarios", file: "./horario.routes.js" },
-  ];
+  router.use("/auth", authRoutes);
+  router.use("/profile", profileRoutes);
+  router.use("/preguntas", preguntaRoutes);
+  router.use("/horarios", horarioRoutes);
+  router.use("/ramos", ramoRoutes);
+  router.use("/evaluaciones", evaluacionRoutes);
+  router.use("/entregas", entregaRoutes);
 
-  for (const r of routeDefs) {
-    try {
-      const mod = await import(r.file);
-      const routerModule = mod.default || mod.router;
-      if (routerModule) router.use(r.path, routerModule);
-    } catch (err) {
-      console.warn(`No se pudo cargar ruta ${r.path}:`, err.message || err);
-    }
-  }
 
   return router;
 }
