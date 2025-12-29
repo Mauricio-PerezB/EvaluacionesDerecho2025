@@ -1,8 +1,8 @@
 import { EntitySchema } from "typeorm";
 
 export const CalificacionSchema = new EntitySchema({
-    name: "Calificacion", 
-    tableName: "calificaciones", 
+    name: "Calificacion",
+    tableName: "calificaciones",
     columns: {
         id: {
             type: "int",
@@ -23,7 +23,11 @@ export const CalificacionSchema = new EntitySchema({
         fechaSubida: {
             name: "fecha_subida",
             type: "timestamp",
+<<<<<<< Updated upstream
             createDate: true, // Esta será la fecha que activa el plazo de 24h
+=======
+            createDate: true, // Importante para la lógica de las 24 horas
+>>>>>>> Stashed changes
         },
         createdAt: {
             name: "created_at",
