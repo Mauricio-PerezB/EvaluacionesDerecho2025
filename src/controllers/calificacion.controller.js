@@ -1,4 +1,4 @@
-// controllers/calificacion.controller.js
+
 
 import { AppDataSource } from "../config/configDb.js";
 import { CalificacionSchema } from "../entities/calificacion.entity.js";
@@ -8,10 +8,7 @@ const CalificacionRepository = AppDataSource.getRepository(CalificacionSchema);
 
 export class CalificacionController {
 
-    /**
-     * @route PUT /api/calificaciones/:id
-     * @description Actualiza la nota y/o retroalimentación de una calificación. Solo para PROFESOR.
-     */
+   
     async updateCalificacion(req, res) {
         try {
             const { id } = req.params;

@@ -12,10 +12,7 @@ const PLAZO_MAXIMO_MS = 24 * 60 * 60 * 1000;
 
 export class InteraccionCalificacionController {
 
-    /**
-     * @route POST /api/interacciones/alumno
-     * @description Permite al ALUMNO iniciar un proceso de apelación si está dentro de las 24h.
-     */
+   
     async createInteraccionAlumno(req, res) {
         try {
             const alumnoId = req.user.id;
