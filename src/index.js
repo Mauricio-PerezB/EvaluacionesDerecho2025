@@ -2,13 +2,16 @@ import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
 import { connectDB } from "./config/configDb.js";
+import cors from "cors";
 // Note: routerApi is imported dynamically after DB connection to avoid import-time
 // module resolution errors while migrating modules to ESM. If dynamic import fails
 // we still start a minimal server so you can iterate on fixes.
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+
 // Ruta principal de bienvenida
 app.get("/", (req, res) => {
   res.send("¡Bienvenido a mi API REST con TypeORM!");

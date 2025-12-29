@@ -7,7 +7,8 @@ export async function findAll() {
     return await preguntaRepository.find({
         select: {
             id: true,
-            pregunta: true
+            pregunta: true,
+            respuesta: true
         }
     });
 }
