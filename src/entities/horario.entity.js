@@ -89,3 +89,25 @@ export const HorarioSchema = new EntitySchema({
     }
   }
 });
+
+// Backwards-compatible in-memory exports for existing services
+export const HorariosDB = [];
+
+const generarId = () => 't-' + Math.random().toString(36).substring(2, 8);
+
+class HorarioEntity {
+  constructor({ fecha, hora, duracionMinutos }) {
+    this.id = generarId();
+    this.fecha = fecha;
+    this.hora = hora;
+    this.duracionMinutos = parseInt(duracionMinutos);
+    this.disponible = true;
+    this.estudianteId = null;
+    this.publicado = false;
+    this.modalidad = 'presencial';
+    this.plataforma = null;
+    this.link = null;
+  }
+}
+
+export { HorarioEntity };
