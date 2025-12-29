@@ -9,7 +9,8 @@ export const CalificacionSchema = new EntitySchema({
             primary: true,
             generated: "increment",
         },
-        nota: {
+        puntaje: {
+            name:"puntaje",
             type: "decimal",
             precision: 4,
             scale: 2,
