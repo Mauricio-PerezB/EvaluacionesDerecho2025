@@ -5,7 +5,6 @@ import { handleErrorClient, handleErrorServer, handleSuccess } from "../Handlers
 
 export class CalificacionController {
 
-    // 1. Ver detalle (Requisito: Nota, Retro, Fecha, Porcentaje)
     async getDetalleParaAlumno(req, res) {
         try {
             const califRepo = AppDataSource.getRepository(CalificacionSchema);
@@ -30,7 +29,6 @@ export class CalificacionController {
         }
     }
 
-    // 2. Apelar (CORREGIDO: Sin 'async function', solo 'async')
     async apelarCalificacion(req, res) {
         try {
             const { id } = req.params; 
@@ -52,7 +50,6 @@ export class CalificacionController {
                 return res.status(404).json({ message: "Calificación no encontrada con el ID: " + id });
             }
 
-            // Lógica de 24 horas
             const ahora = new Date();
             const fechaSubida = new Date(calificacion.fechaSubida);
             const diferenciaHoras = (ahora - fechaSubida) / (1000 * 60 * 60);
@@ -79,7 +76,6 @@ export class CalificacionController {
         }
     }
 
-    // 3. Bandeja Profesor
     async getBandejaProfesor(req, res) {
         try {
             const interaccionRepo = AppDataSource.getRepository(InteraccionCalificacionSchema);
@@ -96,7 +92,6 @@ export class CalificacionController {
         }
     }
 
-    // 4. Responder y cambiar nota
     async responderApelacion(req, res) {
         try {
             const califRepo = AppDataSource.getRepository(CalificacionSchema);
