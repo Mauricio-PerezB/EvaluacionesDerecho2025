@@ -1,8 +1,8 @@
 
 import { Router } from 'express';
 import { RamoController } from '../controllers/ramo.controller.js'; 
-import { authMiddleware } from '../middlewares/auth.middleware.js';
-import { checkRole } from '../middlewares/role.middleware.js'; 
+import { authMiddleware } from '../middleware/auth.middleware.js';
+import { checkRole } from '../middleware/role.middleware.js'; 
 
 const router = Router();
 const ramoController = new RamoController();

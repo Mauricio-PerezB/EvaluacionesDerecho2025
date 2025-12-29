@@ -2,8 +2,8 @@
 
 import { Router } from 'express';
 import { CalificacionController } from '../controllers/calificacion.controller.js';
-import { authMiddleware } from '../middlewares/auth.middleware.js';
-import { checkRole } from '../middlewares/role.middleware.js';
+import { authMiddleware } from '../middleware/auth.middleware.js';
+import { checkRole } from '../middleware/role.middleware.js';
 
 const router = Router();
 const calificacionController = new CalificacionController();
