@@ -65,6 +65,7 @@ export class EntregaController {
                         throw new Error(`El criterio ${criterioId} no pertenece a esta evaluación.`);
                     }
                 }
+
                 const entregaExistente = await transactionManager.findOne(EntregaSchema, {
                     where: {
                         alumno: { id: alumnoId },
@@ -75,6 +76,7 @@ export class EntregaController {
                 if (entregaExistente) {
                     throw new Error("Ya existe una calificación para este alumno en esta evaluación.");
                 }
+
                 let puntajeTotal = 0;
                 for (const resData of resultados) {
                     const criterio = criterios.find(c => c.id === resData.criterioId);
@@ -90,6 +92,9 @@ export class EntregaController {
                     
                     puntajeTotal += puntaje;
                 }
+
+                console.log("Puntaje total calculado:", puntajeTotal);
+
                 const nuevaEntrega = transactionManager.create(EntregaSchema, {
                     evaluacion: evaluacion,
                     alumno: alumno,
@@ -97,6 +102,7 @@ export class EntregaController {
                     comentarioGeneral: comentarioGeneral || null
                 });
                 await transactionManager.save(EntregaSchema, nuevaEntrega);
+
                 const resultadosAGuardar = [];
                 for (const resData of resultados) {
                     const resultado = transactionManager.create(ResultadoSchema, {
@@ -108,12 +114,17 @@ export class EntregaController {
                     resultadosAGuardar.push(resultado);
                 }
                 await transactionManager.save(ResultadoSchema, resultadosAGuardar);
+
                 const nuevaCalificacion = transactionManager.create(CalificacionSchema, {
-                    puntaje: puntajeTotal,
+                    nota: parseFloat(puntajeTotal),
                     retroalimentacionDocente: comentarioGeneral || null,
                     entrega: nuevaEntrega
                 });
+                
+                console.log("Calificación a guardar:", nuevaCalificacion);
+                
                 await transactionManager.save(CalificacionSchema, nuevaCalificacion);
+
                 const entregaCompleta = await transactionManager.findOne(EntregaSchema, {
                     where: { id: nuevaEntrega.id },
                     relations: ['evaluacion', 'alumno', 'resultados', 'resultados.criterio', 'calificacion']
@@ -131,7 +142,9 @@ export class EntregaController {
                 error.message.includes("no existe") || 
                 error.message.includes("Ya existe") ||
                 error.message.includes("no pertenece") ||
-                error.message.includes("no es un alumno")) {
+                error.message.includes("no es un alumno") ||
+                error.message.includes("excede el máximo") ||
+                error.message.includes("no puede ser negativo")) {
                 return handleErrorClient(res, 400, error.message);
             }
             
