@@ -24,6 +24,22 @@ export async function findById(preguntaId) {
   });
 }
 
+export async function findByUnitId(unidadId) {
+  return await preguntaRepository.find({
+    relations: ["unidad"],
+    where: { unidad: { id: unidadId } },
+    select: {
+      id: true,
+      pregunta: true,
+      respuesta: true,
+      unidad: {
+        id: true,
+        nombre: true
+      }
+    }
+  });
+}
+
 export async function create(data) {
   const nuevaPregunta = preguntaRepository.create({
     pregunta: data.pregunta,

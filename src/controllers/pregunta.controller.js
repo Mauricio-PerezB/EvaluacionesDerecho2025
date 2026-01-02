@@ -1,6 +1,7 @@
 import {
   findAll,
   findById,
+  findByUnitId,
   create,
   update,
   remove
@@ -28,6 +29,17 @@ export const getPreguntaById = async (req, res) => {
     handleSuccess(res, 200, "Pregunta obtenida exitosamente.", pregunta);
   } catch (error) {
     handleErrorServer(res, 500, "Error al obtener la pregunta.", error.message);
+  }
+};
+
+export const getPreguntaByUnidad = async (req, res) => {
+  try {
+    const { unidadId } = req.params;
+    const preguntas = await findByUnitId(unidadId);
+
+    handleSuccess(res, 200, "Preguntas obtenidas exitosamente.", preguntas);
+  } catch (error) {
+    handleErrorServer(res, 500, "Error al obtener las preguntas.", error.message);
   }
 };
 
