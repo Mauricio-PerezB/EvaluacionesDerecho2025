@@ -4,13 +4,18 @@ import { PreguntaSchema } from "../entities/preguntas.entity.js";
 const preguntaRepository = AppDataSource.getRepository(PreguntaSchema);
 
 export async function findAll() {
-    return await preguntaRepository.find({
-        select: {
-            id: true,
-            pregunta: true,
-            respuesta: true
-        }
-    });
+  return await preguntaRepository.find({
+    relations: ["unidad"],
+    select: {
+      id: true,
+      pregunta: true,
+      respuesta: true,
+      unidad: {
+        id: true,
+        nombre: true
+      }
+    }
+  });
 }
 
 export async function findById(preguntaId) {
