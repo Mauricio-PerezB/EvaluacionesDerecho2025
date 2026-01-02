@@ -51,6 +51,10 @@ export const createPregunta = async (req, res) => {
       return handleErrorClient(res, 400, "Los campos 'pregunta' y 'respuesta' son obligatorios.");
     }
 
+    if (!unidad_id) {
+      return handleErrorClient(res, 400, "La pregunta debe estar asociada a una unidad.");
+    }
+
     const nuevaPregunta = await create({ pregunta, respuesta, unidad_id });
     handleSuccess(res, 201, "Pregunta creada exitosamente.", nuevaPregunta);
   } catch (error) {
@@ -62,6 +66,10 @@ export const updatePregunta = async (req, res) => {
   try {
     const { id } = req.params;
     const { pregunta, respuesta, unidad_id } = req.body;
+
+    if (!unidad_id) {
+      return handleErrorClient(res, 400, "La pregunta debe estar asociada a una unidad.");
+    }
 
     const preguntaActualizada = await update(parseInt(id), { pregunta, respuesta, unidad_id });
     handleSuccess(res, 200, "Pregunta actualizada exitosamente.", preguntaActualizada);
