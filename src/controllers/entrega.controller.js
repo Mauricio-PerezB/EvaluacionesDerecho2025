@@ -240,4 +240,39 @@ export class EntregaController {
             handleErrorServer(res, 500, "Error al obtener las entregas", error.message);
         }
     }
+    async deleteEntrega(req, res) {
+        try {
+            const { id } = req.params;
+
+            if (!id) {
+                return handleErrorClient(res, 400, "El parámetro id es requerido.");
+            }
+
+            const entregaId = parseInt(id);
+            if (isNaN(entregaId)) {
+                return handleErrorClient(res, 400, "El id debe ser un número válido.");
+            }
+
+            const entrega = await entregaRepo.findOne({
+                where: { id: entregaId },
+                relations: ["evaluacion", "alumno", "calificacion", "resultados"]
+            });
+
+            if (!entrega) {
+                return handleErrorClient(res, 404, "Entrega no encontrada.");
+            }
+
+            await entregaRepo.remove(entrega);
+
+            handleSuccess(res, 200, "Entrega eliminada exitosamente", {
+                id: entregaId,
+                evaluacion: entrega.evaluacion.nombre,
+                alumno: `${entrega.alumno.nombre} ${entrega.alumno.apellido}`
+            });
+
+        } catch (error) {
+            console.error("Error en deleteEntrega:", error);
+            handleErrorServer(res, 500, "Error al eliminar la entrega", error.message);
+        }
+    }
 }
