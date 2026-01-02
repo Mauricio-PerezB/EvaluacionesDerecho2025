@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authMiddleware } from "../middleware/auth.middleware.js";
+import { verifyProfessor } from "../middleware/auth.middleware.js";
 import {
   getAllPreguntas,
   getPreguntaById,
@@ -14,8 +14,8 @@ const router = Router();
 router.get("/", getAllPreguntas);
 router.get("/:id", getPreguntaById);
 router.get("/unidad/:unidadId", getPreguntaByUnidad);
-router.post("/", createPregunta);
-router.put("/:id", updatePregunta);
-router.delete("/:id", deletePregunta);
+router.post("/", verifyProfessor, createPregunta);
+router.put("/:id", verifyProfessor, updatePregunta);
+router.delete("/:id", verifyProfessor, deletePregunta);
 
 export default router;
