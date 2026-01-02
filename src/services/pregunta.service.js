@@ -44,14 +44,16 @@ export async function create(data) {
   const nuevaPregunta = preguntaRepository.create({
     pregunta: data.pregunta,
     respuesta: data.respuesta,
-    unidad_id: data.unidad_id ?? null, // por defecto null
+    unidad: data.unidad_id ? { id: data.unidad_id } : null
   });
 
   return await preguntaRepository.save(nuevaPregunta);
 }
 
 export async function update(preguntaId, data) {
-  const pregunta = await preguntaRepository.findOne({ where: { id: preguntaId } });
+  const pregunta = await preguntaRepository.findOne({
+    where: { id: preguntaId },
+  });
 
   if (!pregunta) {
     throw new Error(`Pregunta con id ${preguntaId} no encontrada.`);
@@ -59,7 +61,10 @@ export async function update(preguntaId, data) {
 
   pregunta.pregunta = data.pregunta ?? pregunta.pregunta;
   pregunta.respuesta = data.respuesta ?? pregunta.respuesta;
-  pregunta.unidad_id = data.unidad_id ?? pregunta.unidad_id;
+
+  if (data.unidad_id !== undefined) {
+    pregunta.unidad = data.unidad_id ? { id: data.unidad_id } : null;
+  }
 
   return await preguntaRepository.save(pregunta);
 }
