@@ -4,11 +4,16 @@ import { UnidadSchema } from "../entities/unidad.entity.js";
 const unidadRepository = AppDataSource.getRepository(UnidadSchema);
 
 export async function findAll() {
-  return await unidadRepository.find({
-    select: {
-        id: true,
-        nombre: true,
-        descripcion: true
-    }
-  });
+  return await unidadRepository
+    .createQueryBuilder("unidad")
+    .loadRelationCountAndMap(
+      "unidad.cantidadPreguntas",
+      "unidad.preguntas"
+    )
+    .select([
+      "unidad.id",
+      "unidad.nombre",
+      "unidad.descripcion"
+    ])
+    .getMany();
 }
