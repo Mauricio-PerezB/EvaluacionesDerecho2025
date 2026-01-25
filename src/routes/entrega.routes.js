@@ -13,14 +13,27 @@ router.post(
     '/',
     authMiddleware,
     checkRole(PROFESOR),
-    controller.createEntrega
+    controller.createEntrega.bind(controller)
 );
 
 router.get(
     '/evaluacion/:evalId/mi-entrega',
     authMiddleware,
     checkRole(ALUMNO),
-    controller.getMiEntrega
+    controller.getMiEntrega.bind(controller)
 );
 
+router.get(
+    '/evaluacion/:evalId/todas',
+    authMiddleware,
+    checkRole(PROFESOR),
+    controller.getEntregasByEvaluacion.bind(controller)
+);
+
+router.delete(
+    '/:id',
+    authMiddleware,
+    checkRole(PROFESOR),
+    controller.deleteEntrega.bind(controller)
+);
 export default router;

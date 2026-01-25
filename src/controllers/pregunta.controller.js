@@ -1,6 +1,7 @@
 import {
   findAll,
   findById,
+  findByUnitId,
   create,
   update,
   remove
@@ -31,12 +32,27 @@ export const getPreguntaById = async (req, res) => {
   }
 };
 
+export const getPreguntaByUnidad = async (req, res) => {
+  try {
+    const { unidadId } = req.params;
+    const preguntas = await findByUnitId(unidadId);
+
+    handleSuccess(res, 200, "Preguntas obtenidas exitosamente.", preguntas);
+  } catch (error) {
+    handleErrorServer(res, 500, "Error al obtener las preguntas.", error.message);
+  }
+};
+
 export const createPregunta = async (req, res) => {
   try {
     const { pregunta, respuesta, unidad_id } = req.body;
 
     if (!pregunta || !respuesta) {
       return handleErrorClient(res, 400, "Los campos 'pregunta' y 'respuesta' son obligatorios.");
+    }
+
+    if (!unidad_id) {
+      return handleErrorClient(res, 400, "La pregunta debe estar asociada a una unidad.");
     }
 
     const nuevaPregunta = await create({ pregunta, respuesta, unidad_id });
@@ -50,6 +66,10 @@ export const updatePregunta = async (req, res) => {
   try {
     const { id } = req.params;
     const { pregunta, respuesta, unidad_id } = req.body;
+
+    if (!unidad_id) {
+      return handleErrorClient(res, 400, "La pregunta debe estar asociada a una unidad.");
+    }
 
     const preguntaActualizada = await update(parseInt(id), { pregunta, respuesta, unidad_id });
     handleSuccess(res, 200, "Pregunta actualizada exitosamente.", preguntaActualizada);

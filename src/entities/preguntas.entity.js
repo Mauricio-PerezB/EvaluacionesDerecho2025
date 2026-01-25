@@ -32,8 +32,7 @@ export const PreguntaSchema = new EntitySchema({
         unidad: {
             target: "Unidad",
             type: "many-to-one",
-            joinColumn: { name: "unidad_id" },
-            nullable: true
+            joinColumn: { name: "unidad_id" }
         },
     },
 });

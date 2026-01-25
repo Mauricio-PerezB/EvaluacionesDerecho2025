@@ -60,10 +60,6 @@ export class InteraccionCalificacionController {
         }
     }
 
-    /**
-     * @route POST /api/interacciones/docente
-     * @description Permite al PROFESOR responder a una apelación.
-     */
     async createInteraccionDocente(req, res) {
         try {
     
